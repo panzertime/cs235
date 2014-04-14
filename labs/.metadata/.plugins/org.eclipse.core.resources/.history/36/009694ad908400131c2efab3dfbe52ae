@@ -1,0 +1,194 @@
+//============================================================================
+// Name        : lab1.cpp
+// Author      : RT Hatfield
+// Version     :
+// Copyright   : this
+// Description : lab1: GPA calculator
+//============================================================================
+
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include "Student.h"
+#include "Grade.h"
+
+using namespace std;
+
+vector<string> populateTemp(char* file){
+	vector<string> toPopulate;
+	ifstream readIn;		//make all the things i need to populate my vectors
+	string sget;
+
+	readIn.open(file); 		//open student file
+
+	while(getline(readIn, sget)){
+		toPopulate.push_back(sget);	//making temp vector from which to populate student vector
+	}
+
+	readIn.close();				//close this file
+	return toPopulate;
+}
+
+ /*vector<string> makeStudent(vector<string> source){
+	vector<string>
+	Student newStudent;		//new student!
+	newStudent.setPhone(source.back());
+	source.pop_back();
+	newStudent.setAddress(source.back());
+	source.pop_back();
+	newStudent.setName(source.back());
+	source.pop_back();			//copying and destroying info in read
+	string idString = source.back();
+	int newID = atoi(idString.c_str());
+	newStudent.setID(newID);
+	source.pop_back();
+	destination.push_back(newStudent);
+	//add newest student to student vector
+}*/
+	// makes students but also sigsegs
+
+void makeGrade(vector<string>& source, vector<Grade>& destination){
+	Grade newGrade;				//new Grade!
+	newGrade.setGrade(source.back());
+	source.pop_back();
+	string idString = source.back();
+	int newID = atoi(idString.c_str());
+	newGrade.setID(newID);
+	source.pop_back();
+	newGrade.setCourse(source.back());
+	source.pop_back();
+	destination.push_back(newGrade);
+	//add newest grade to grade vector
+}
+
+void printJob(vector<Student> kids, vector<Grade> grades, ofstream& where){
+	for(auto printable : kids){
+		printable.print(where);
+	}
+	where<<endl;
+	where<<endl; 					//whitespace for readability
+	for(auto printable : grades){
+		printable.print(where);
+	}
+	where<<endl;
+	where<<endl; 					//whitespace for readability
+}
+
+void vectorConvert(vector<string> from,vector<int>& to){
+	for (auto thing : from){
+		int convert = atoi(thing.c_str());
+		to.push_back(convert);
+	}
+
+}
+
+void search(vector<int> toSearch, vector<Grade> findIn, vector<Student> xRef, ofstream& where){
+	for (auto query : toSearch){		//actually execute queries, one by one
+		float accumulator = 0; 		//default values
+		float hits = 0;
+		float gpa = 0;
+		string queryname = "Unknown";
+		for (auto gparec : findIn){	//now step thru, find matches, add up
+			if (gparec.getID() == query){
+				hits++;
+				accumulator = accumulator + gparec.gpa();
+			}
+		}
+
+		if(hits != 0){				//prevent divide-by-zero
+			gpa = accumulator / hits;
+			for (auto namerec : xRef){
+						if (namerec.getID() == query){
+							queryname = namerec.getName();
+						} 						//this was finding the name in the students vector
+					}
+					where << query << "    " << fixed << setprecision(2) << setfill('0') << gpa << "    " << queryname << endl;
+		}
+	}
+
+
+}
+
+int main(int argc, char* argv[]) {
+	ofstream out;
+	out.open(argv[4]);
+
+
+	vector<Student> students;
+	vector<string> read;
+
+	read = populateTemp(argv[1]);	//temporary holder for students
+
+	for(;read.size()>=4;){			//populate student list
+		Student newStudent;			//new student!
+		newStudent.setPhone(read.back());
+		read.pop_back();
+		newStudent.setAddress(read.back());
+		read.pop_back();
+		newStudent.setName(read.back());
+		read.pop_back();			//copying and destroying info in read
+		string idString = read.back();
+		int newID = atoi(idString.c_str());
+		newStudent.setID(newID);
+		read.pop_back();
+		students.push_back(newStudent);
+	}
+
+
+	sort(students.begin(),students.end());		//sort our students
+
+	vector<Grade> grades;
+
+	populateTemp(argv[2]);
+
+	for(;read.size() >= 3; ){
+		Grade newGrade;				//new Grade!
+		newGrade.setGrade(read.back());
+		read.pop_back();
+		string idString = read.back();
+		int newID = atoi(idString.c_str());
+		newGrade.setID(newID);
+		read.pop_back();
+		newGrade.setCourse(read.back());
+		read.pop_back();
+		grades.push_back(newGrade);
+	}
+
+	//delete						//since because no garbage collect
+
+	sort(grades.begin(),grades.end());
+									//sort our grades
+	//printJob(students, grades, out);//print our students and grades
+
+	vector<Student>::iterator ist;
+
+	for(; ist < students.end(); ist++){
+		ist->print(out);
+	}
+	out<<endl;
+	out<<endl; 					//whitespace for readability
+	for(Grade printable : grades){
+		printable.print(out);
+	}
+	out<<endl;
+	out<<endl; 					//whitespace for readability
+
+	vector<int> queries;			//vector for our queries
+
+	vector<string> querytemp;
+
+	populateTemp(argv[3], querytemp);
+
+	vectorConvert(querytemp, queries);
+
+	search(queries, grades, students, out);
+
+	out.close();
+
+	return 0;
+}
+
+

@@ -1,0 +1,4 @@
+Connectors.ConnectionType=org.eclipse.ptp.remote.internal.terminal.RemoteToolsConnector
+Connectors.org.eclipse.ptp.remote.internal.terminal.RemoteToolsConnector.ConnectionName=Local
+Connectors.org.eclipse.ptp.remote.internal.terminal.RemoteToolsConnector.RemoteServices=org.eclipse.ptp.remote.LocalServices
+eclipse.preferences.version=1

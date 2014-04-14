@@ -1,0 +1,177 @@
+//
+//  main.cpp
+//  lab 3
+//
+//  Created by Arthur Hatfield on 31/01-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#include <iostream>
+#include <set>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <sstream>
+#include <cmath>
+
+using namespace std;
+
+string pretty(string& in){
+    for (auto p : in){
+        p = tolower(p);
+    }
+    return in;
+}
+
+set<string> makeDict(const char* fname){
+    set<string> dest;
+    ifstream from;
+    from.open(fname);
+    string c;
+    while (getline(from, c)) {
+    	c = pretty(c);
+        dest.insert(c);
+    }
+    from.close();
+    return dest;
+}
+
+vector<vector<char>> makeBoard(const char* fname){
+    vector<vector<char>> dest;
+    ifstream from;
+    from.open(fname);
+    vector<char> stor;
+    char c;
+    while (from.get(c)){
+        if (isalpha(c)) {
+        	c = tolower(c);
+            stor.push_back(c);
+        }
+    }
+    int n = stor.size();
+    n = sqrt(n);
+    for(int i = 0; i < n; i++){
+        vector<char> row;
+        for (int j = (i * n); j < (i + 1)*n; j++) {
+            row.push_back(stor[j]);
+        }
+        dest.push_back(row);
+    }
+    from.close();
+    return dest;
+}
+
+vector<vector<bool>> makeScreen(int s){
+	vector<vector<bool>> dest;
+	for(int i = 0; i <= s; i++){
+		vector<bool> row;
+		for (int j = 0; j <= s; j++){
+			row.push_back(0);
+		}
+		dest.push_back(row);
+	}
+
+	return dest;
+
+}
+
+bool dictPredict(set<string>& in, string& prefix){
+    string match;
+    match = *in.lower_bound(prefix);        //  remember that this is actually dereffing an iterator
+    match = match.substr(0, prefix.size());    //  and check the substring
+    if (match == prefix){
+        return 1;							//	true if possible match
+    }
+    return 0;								//	false if no-go
+}
+
+bool dictCheck(set<string>& in, string& word){
+    if(in.count(word)){
+        return 1;
+    }
+    return 0;
+}
+
+bool onBoard(int& x, int& y, int& bound){
+	if (x < 0 || y < 0){
+		return 0;					// false if above or to the left
+	}
+	if (x > bound || y > bound){
+		return 0;					// false if to the right or below
+	}
+	return 1;						// otherwise, OK
+}
+
+void report(vector<vector<char>>& fromspace, set<string>& words, const char* to){
+	ofstream out;
+	out.open(to);
+
+	for(auto inner : fromspace){
+		for(auto p : inner){
+			out << p << ' ';
+		}
+		out << endl;
+	}
+
+	out << endl;
+
+	for(auto p : words){
+		out << p << endl;
+		//cout << p << endl;
+	}
+
+	out.close();
+}
+
+void scan(int x, int y, int& bound, vector<vector<char>>& space, vector<vector<bool>>& screen,
+		set<string>& dict, set<string>& found, string init){
+	// pass init by reference to facilitate recursion.  Set init to null for first pass.
+	if(dictCheck(dict, init) && init.size() > 3){
+		found.insert(init);
+	}
+	if(onBoard(x,y,bound)){
+
+			init.push_back(space[x][y]);
+
+			if (dictPredict(dict,init)){
+				scan(x+1,y,bound,space,screen,dict,found,init);
+				scan(x+1,y+1,bound,space,screen,dict,found,init);
+				scan(x+1,y-1,bound,space,screen,dict,found,init);
+				scan(x,y+1,bound,space,screen,dict,found,init);
+				scan(x,y-1,bound,space,screen,dict,found,init);
+				scan(x-1,y,bound,space,screen,dict,found,init);
+				scan(x-1,y+1,bound,space,screen,dict,found,init);
+				scan(x-1,y-1,bound,space,screen,dict,found,init);
+			}
+	}
+}
+
+int main(int argc, const char * argv[]){
+    
+    set<string> dictionary = makeDict(argv[1]);
+    
+    vector<vector<char>> board = makeBoard(argv[2]);
+    
+    set<string> found;
+
+    int dim;						// global variable of board size
+    dim = board.size()-1;
+
+    vector<vector<bool>> chk = makeScreen(dim);
+
+    //cout << "dim" << dim << endl;
+
+    for(int i = 0;i <= dim;i++){
+    	for(int j = 0;j <= dim;j++){
+    		scan(i,j,dim,board,chk,dictionary,found,"");
+    	}
+    }
+
+
+    report(board, found, argv[3]);
+
+    
+    return 0;
+}
+
+

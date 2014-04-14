@@ -1,0 +1,15 @@
+//============================================================================
+// Name        : lab2.cpp
+// Author      : RT Hatfield
+// Version     :
+// Copyright   : this
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	cout << "whoo" << endl; // prints whoo
+	return 0;
+}

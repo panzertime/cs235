@@ -1,0 +1,12 @@
+blue:5 
+do:1 
+gotta:2 4 
+hey:1 
+know:1 
+rock:3 
+roll:5 
+to:1 
+what:1 
+white:3 
+with:3 5 
+you:1 1 2 4 

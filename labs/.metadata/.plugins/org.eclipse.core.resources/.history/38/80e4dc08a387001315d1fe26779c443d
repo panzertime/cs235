@@ -1,0 +1,50 @@
+//============================================================================
+// Name        : lab2.cpp
+// Author      : RT Hatfield
+// Version     :
+// Copyright   : this
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <set>
+#include <string>
+#include <fstream>
+#include <cctype>
+using namespace std;
+
+set<string> newDict(char* from){
+	ifstream src;
+	src.open(from);
+
+	set<string> dest;
+	string s;
+	while(getline(src, s)){
+		dest.insert(s);
+	}
+
+	return dest;
+}
+
+void pretty(string targ){
+	for (auto c : targ){
+		c = tolower(c);
+	}
+	for (auto c : targ){
+		if(!isalpha(c)){
+
+		}
+	}
+
+}
+
+int main(int argc, char* argv[]) {
+
+	set<string> dictionary = newDict(argv[1]);
+
+
+
+
+
+	return 0;
+}

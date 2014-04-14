@@ -1,0 +1,61 @@
+//
+//  main.cpp
+//  project 5
+//
+//  Created by Arthur Hatfield on 21/03-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
+#include "LinkedList.h"
+
+using namespace std;
+
+int main(int argc, const char * argv[])
+{
+    ifstream in;
+    in.open(argv[1]);
+    ofstream out;
+    out.open(argv[2]);
+	
+	string s;
+	LinkedList<string> l;
+	
+	while (getline(in,s)){
+		string sprime = s.substr(0,3);
+		//cout << s; // change to out later
+		if(sprime == "cle"){
+			l.clear();
+			cout<< "clear" << endl;
+		}
+		else if(sprime == "ins"){
+			string d = s.substr(7,1);
+			int digit = atoi(d.c_str());
+			string data = s.substr(9,256);
+			l.insert(digit,data);
+			cout << s << endl;
+		}
+		else if(sprime == "pri"){
+			cout << s << endl;
+			l.print();
+		}
+		else if(sprime == "fin"){
+			string data = s.substr(5,256);
+			int i = l.find(data);
+			cout << "find " << data << " " << i << endl;
+		}
+		else if(sprime == "rem"){
+			string d = s.substr(7,1);
+			int digit = atoi(d.c_str());
+			string k = l.remove(digit);
+			cout << " " << k << endl;
+		}
+	}
+    
+    
+    return 0;
+}
+

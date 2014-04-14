@@ -1,0 +1,71 @@
+15:39:40 **** Build of configuration Debug for project lab3 ****
+make all 
+Building file: ../lab 3/._main.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"lab 3/._main.d" -MT"lab\ 3/._main.d" -o "lab 3/._main.o" "../lab 3/._main.cpp"
+../lab 3/._main.cpp:1:1: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\5’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\26’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\7’ in program
+../lab 3/._main.cpp:1:5: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\2’ in program
+../lab 3/._main.cpp:1:7: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:17: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\2’ in program
+../lab 3/._main.cpp:1:27: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:35: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\16’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\260’ in program
+../lab 3/._main.cpp:1:39: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\2’ in program
+../lab 3/._main.cpp:1:43: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\16’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\342’ in program
+../lab 3/._main.cpp:1:47: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\1’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\36’ in program
+../lab 3/._main.cpp:1:51: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\232’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\311’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\377’ in program
+../lab 3/._main.cpp:1:93: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\16’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\342’ in program
+../lab 3/._main.cpp:1:97: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\234’ in program
+../lab 3/._main.cpp:1:101: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\17’ in program
+../lab 3/._main.cpp:1:105: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\1’ in program
+../lab 3/._main.cpp:1:121: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\234’ in program
+../lab 3/._main.cpp:1:125: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\17’ in program
+../lab 3/._main.cpp:1:129: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\27’ in program
+../lab 3/._main.cpp:1:154: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:172: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\1’ in program
+../lab 3/._main.cpp:1:3814: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\1’ in program
+../lab 3/._main.cpp:1:3818: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\36’ in program
+../lab 3/._main.cpp:1:3870: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\1’ in program
+../lab 3/._main.cpp:1:4070: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\1’ in program
+../lab 3/._main.cpp:1:4074: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\36’ in program
+../lab 3/._main.cpp:1:4083: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\34’ in program
+../lab 3/._main.cpp:1:4093: warning: null character(s) ignored [enabled by default]
+../lab 3/._main.cpp:1:2: error: stray ‘\36’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\377’ in program
+../lab 3/._main.cpp:1:2: error: stray ‘\377’ in program
+../lab 3/._main.cpp:1:9: error: ‘Mac’ does not name a type
+../lab 3/._main.cpp:1:132: error: ‘com’ does not name a type
+../lab 3/._main.cpp:1:163: error: expected unqualified-id before numeric constant
+make: *** [lab 3/._main.o] Error 1
+
+15:39:41 Build Finished (took 184ms)
+

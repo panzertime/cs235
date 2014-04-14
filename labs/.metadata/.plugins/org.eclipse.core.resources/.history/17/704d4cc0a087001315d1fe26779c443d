@@ -1,0 +1,26 @@
+//============================================================================
+// Name        : lab2.cpp
+// Author      : RT Hatfield
+// Version     :
+// Copyright   : this
+// Description : Hello World in C++, Ansi-style
+//============================================================================
+
+#include <iostream>
+#include <set>
+#include <string>
+#include <fstream>
+using namespace std;
+
+set<string> newDict(char* from){
+	ifstream src;
+	src.open(from);
+
+}
+
+int main() {
+
+
+
+	return 0;
+}

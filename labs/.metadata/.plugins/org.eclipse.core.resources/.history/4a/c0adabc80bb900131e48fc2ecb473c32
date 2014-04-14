@@ -1,0 +1,205 @@
+//
+//  LinkedList.h
+//  project 5
+//
+//  Created by Arthur Hatfield on 23/03-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#ifndef __project_5__LinkedList__
+#define __project_5__LinkedList__
+
+#include <iostream>
+
+using namespace std;
+
+template <typename obj>
+
+class LinkedList {
+public:
+    
+    LinkedList<obj>(){
+        size = 0;
+        node *head = new node;
+        node *tail = new node;
+        head->prev = NULL;
+        head->next = tail;
+        tail->next = NULL;
+        tail->prev = head;
+    }
+    
+    virtual ~LinkedList(){
+        clear();
+    }
+    
+    class node {
+    public:
+        obj item;
+        node* next;
+        node* prev;
+    };
+    
+    
+    node* head;
+    node* tail;
+    int size;
+    
+    void clear(){
+        if(size != 0){
+            for(int i = size - 1; i >= 0; i--) {
+                cout << remove(i) << endl;
+            }
+        }
+    }
+    
+    void print(){
+    	if(size != 0){
+            node *temp = new node;
+            temp = head;
+            int i = 0;
+            while (temp != NULL) {
+                std::cout << "node " << i << ": " << temp->item << std::endl;
+                temp = temp->next;
+                i++;
+            }
+            delete temp;
+    	}
+    }
+    
+    void insert(int index, const obj& item) {
+    	if (size == 0){
+    		node *nov = new node;
+    		nov->item = item;
+    		head = nov;
+    		tail = nov;
+    		head->next = tail;
+    		tail->prev = head;
+    		size++;
+    		return;
+    	}
+    	if (index == 0){
+    		node *nov = new node;
+    		nov->item = item;
+    		nov->next = head;
+    		head->prev = nov;
+    		nov->prev = NULL;
+    		head = nov;
+    		size++;
+    		return;
+    	}
+    	if (index == size){
+    		node *nov = new node;
+    		nov->item = item;
+    		nov->next = NULL;
+    		nov->prev = tail;
+    		tail->next = nov;
+    		tail = nov;
+    		size++;
+    		return;
+    	}
+        if (index < size ) {
+            
+            node *temp = get(index);
+            cout << "  ! ! ! " << temp->item << endl;
+            node *nov = new node;
+            nov->item = item;
+            
+            node *bef = temp->prev;
+            bef->next = nov;
+            nov->prev = bef;
+            nov->next = temp;
+            temp->prev = nov;
+            
+            size++;
+            
+            //think thru this carefully for first and last node
+
+        }
+    }
+    
+    obj remove(int index) {
+        
+    	obj ex;
+
+    	if (index == 0){
+    		node *temp = head;
+    		ex = head->item;
+    		head = temp->next;
+    		delete temp;
+    		head->prev = NULL;
+    		size--;
+    		return ex;
+    	}
+    	if (index == size - 1){
+    		node *temp = tail;
+    		ex = tail->item;
+    		tail = temp->prev;
+    		delete temp;
+    		size--;
+    		return ex;
+    	}
+        if (index < size){
+            node *temp = get(index);
+            node *bef = temp->prev;
+            node *aft = temp->next;
+            bef->next = aft;
+            aft->prev = bef;
+            ex = temp->item;
+            size--;
+            delete temp;
+            return ex;
+        }
+
+        
+        return ex;
+        
+    }
+    
+    int find(const obj& item) {
+        node *temp = head;
+        int i = 0;
+
+        while(temp != NULL){
+            if (temp->item == item){
+            	delete temp;
+                return i;
+            }
+            i++;
+            temp = temp->next;
+        }
+        delete temp;
+        return -1;
+        
+    }
+    
+    node* get(int index){
+
+    	if (index < size / 2){
+            node *temp = head;
+
+            for (int i=0; i <= index; i++) {
+                temp = temp->next;
+            }
+
+    		return temp;
+    	}
+    	else {
+            node *temp = tail;
+
+            for (int i=size - 1; i >= index; i--) {
+                temp = temp->prev;
+            }
+
+    		return temp;
+    	}
+    }
+    
+
+};
+
+
+
+
+
+
+#endif /* defined(__project_5__LinkedList__) */

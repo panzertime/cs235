@@ -1,0 +1,9 @@
+clear
+add bob
+add joe
+add jim
+printfind joe true
+remove bob
+remove joe
+remove jim
+printfind joe true

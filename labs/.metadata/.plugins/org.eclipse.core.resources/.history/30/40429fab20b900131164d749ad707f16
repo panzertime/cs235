@@ -1,0 +1,60 @@
+//
+//  main.cpp
+//  project 5
+//
+//  Created by Arthur Hatfield on 21/03-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
+#include "LinkedList.h"
+
+using namespace std;
+
+int main(int argc, const char * argv[])
+{
+    ifstream in;
+    in.open(argv[1]);
+    ofstream out;
+    out.open(argv[2]);
+	
+	string s;
+	LinkedList<string> l;
+	
+	while (getline(in,s)){
+		string s1 << s;
+		string s2 << s;
+		string s3 << s;
+		if(s1 == "cle"){
+			l.clear();
+			out<< "clear" << endl;
+		}
+		else if(s1 == "ins"){
+			int digit = atoi(s2.c_str());
+			string data = s3;
+			l.insert(digit,data);
+			out << s << endl;
+		}
+		else if(s1 == "pri"){
+			out << s << endl;
+			l.print(out);
+		}
+		else if(s1 == "fin"){
+			string data = s.substr(5,256);
+			int i = l.find(data);
+			out << "find " << data << " " << i << endl;
+		}
+		else if(s1 == "rem"){
+			int digit = atoi(s2.c_str());
+			string k = l.remove(digit);// l.remove(digit);
+			out << "remove " << digit << " " << k << endl;
+		}
+	}
+    
+    
+    return 0;
+}
+

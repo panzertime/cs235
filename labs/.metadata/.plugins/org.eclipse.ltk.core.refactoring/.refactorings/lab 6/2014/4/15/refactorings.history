@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;lab 6/LinkedList.h&apos; to &apos;avlTree.h&apos;" description="Rename resource &apos;LinkedList.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="LinkedList.h" name="avlTree.h" stamp="1397069041887" updateReferences="true"/>
+</session>

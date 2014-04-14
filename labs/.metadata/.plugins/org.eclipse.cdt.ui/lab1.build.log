@@ -1,0 +1,7 @@
+16:49:02 **** Clean-only build of configuration Debug for project lab1 ****
+make clean 
+rm -rf  ./src/Grade.o ./src/Student.o ./src/lab1.o  ./src/Grade.d ./src/Student.d ./src/lab1.d  lab1
+ 
+
+16:49:02 Build Finished (took 203ms)
+
