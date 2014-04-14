@@ -2,8 +2,13 @@ clear
 add bob
 add joe
 add jim
-printfind joe true
-remove bob
-remove joe
-remove jim
-printfind joe true
+add jam
+add carl
+add dick
+add penis
+add anagram
+add add
+add susan
+add :?
+add nothing
+print

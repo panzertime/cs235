@@ -49,7 +49,8 @@ public:
     void clear(){
         if(size != 0){
             for(int i = size - 1; i >= 0; i--) {
-                cout << remove(i) << endl;
+                cout << remove(i);
+                cout << endl;
             }
         }
     }
@@ -60,12 +61,24 @@ public:
             int i = 0;
             for (i = 0; i < size; i++) {
             	temp = getptr(i);
-                to << "node " << i << ": " << temp->item << std::endl;
+                to << "node " << i << ": " << temp->item;
+                cout << std::endl;
 
             }
     	}
     }
     
+    void append(const obj& item) {
+		node *nov = new node;
+		node *pos = tail;
+		nov->item = item;
+		nov->next = NULL;
+		nov->prev = pos;
+		pos->next = nov;
+		tail = nov;
+		size++;
+    }
+
     void insert(int index, const obj& item) {
     	if (size == 0){
     		node *nov = new node;

@@ -48,39 +48,52 @@ public:
     }
     
     LinkedList<node*> level(LinkedList<node*> & current){
-    	LinkedList<node*> next;
-    	for(int i = 1; i < current.bigness(); i++){
+    	LinkedList<node*> plus;
+    	int k = current.size;
+    	int place = 0;
+    	cout << "level in size: " << k << endl;
+    	for(int i = 0; i < k; i++){
     		node* at = current.get(i);
-    		if(at->left != NULL)
-    			next.insert(next.bigness(),at->left);
-    		if(at->right != NULL)
-    			next.insert(next.bigness(),at->right);
+    		if(at->right == NULL){
+    			node* l = at->left;
+    			plus.append(l);
+    			place++;
+    		}
+    		if(at->left == NULL){
+    			node* r = at->right;
+    			plus.append(r);
+    			place++;
+    		}
     	}
-    	return next;
+    	return plus;
     }
     
-    void print(LinkedList<node*> & level, int & no, ofstream & to){
-    	for(int i = 0; i < level.bigness(); i++){
+    void print(LinkedList<node*> & lev, int & no, ofstream & to){
+    	int k = lev.size;
+    	for(int i = 0; i < k; i++){
         	if (i % 8 == 0){
         		cout << endl << "level " << no << ": ";
-        		cout << "DONGS";
         	}
-        	node* at = level.get(i);
+        	node* at = lev.get(i);
         	cout << at->item << "(" << at->height << ") ";
     	}
     }
 
     void print(ofstream & to){// redo
+    	cout << "size of whole tree: " << size << endl;
     	if(size != 0){
     		LinkedList<node*> zero;
     		zero.insert(0,root);
     		int depth = 0;
     		print(zero,depth,to);
+    		depth++;
     		LinkedList<node*> next = level(zero);
-    		while(next.bigness() != 0){
+    		int k = next.size;
+    		while(k != 0){
     			print(next,depth,to);
     			depth++;
     			next = level(next);
+    			k = next.size;
     		}
     	}
     }
@@ -88,11 +101,11 @@ public:
     void add(const obj& item) {
     	if (size == 0){
     		node* first = new node;
-    		root = first;
     		first -> item = item;
     		first -> left = NULL;
     		first -> right = NULL;
     		first -> height = 1;
+    		root = first;
     		size++;
     	}
     	else {
@@ -100,11 +113,11 @@ public:
     	}
     }
 
-    void add(const obj& item, node* where) {
-    	if (item < where -> item){
+    void add(const obj& nitem, node* where) {
+    	if (nitem < where -> item){
     		if (where -> left == NULL){
     			node* temp = new node;
-    			temp -> item = item;
+    			temp -> item = nitem;
     			temp -> left = NULL;
     			temp -> right = NULL;
     			temp -> height = 1;	// is always added as leaf, h = 1
@@ -112,13 +125,13 @@ public:
     			size++;
     		}
     		else {
-    			add(item, where->left);
+    			add(nitem, where->left);
     		}
     	}
-    	if (item > where -> item){
+    	if (nitem > where -> item){
     		if (where -> right == NULL){
     			node* temp = new node;
-    			temp -> item = item;
+    			temp -> item = nitem;
     			temp -> left = NULL;
     			temp -> right = NULL;
     			temp -> height = 1;	//	is always added as leaf, h = 1
@@ -126,10 +139,10 @@ public:
     			where -> right = temp;
     		}
     		else {
-    			add(item, where->right);
+    			add(nitem, where->right);
     		}
     	}
-    	if (item == where -> item){
+    	if (nitem == where -> item){
     		return;
     	}//if this doesn't work, parentheses
 //    	if ((where -> left) -> height > (where -> right) -> height){
