@@ -27,7 +27,6 @@ public:
 	string getAddress();
 	string getPhone();
 
-private:
 	int studentID;		// instance variables
 	string name;
 	string address;

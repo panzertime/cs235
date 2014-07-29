@@ -1,0 +1,26 @@
+clear
+add bob
+add joe
+add jim
+print
+find joe
+find bob
+find jim
+remove bob
+find bob
+find joe
+find jim
+print
+remove joe
+find bob
+find joe
+find jim
+print
+remove jim
+find bob
+find joe
+find jim
+print
+find bob
+find jim
+find joe

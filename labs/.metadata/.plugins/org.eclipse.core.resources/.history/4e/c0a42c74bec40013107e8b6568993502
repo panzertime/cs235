@@ -1,0 +1,71 @@
+//
+//  main.cpp
+//  project 5
+//
+//  Created by Arthur Hatfield on 21/03-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdlib.h>
+#include "avlTree.h"
+
+
+using namespace std;
+
+int main(int argc, const char * argv[])
+{
+    ifstream in;
+    in.open(argv[1]);
+    ofstream out;
+    out.open(argv[2]);
+	
+	string s;
+	avlTree<string> l;
+	
+	while (in >> s){
+		string s1;
+		s1 = s;
+
+		string s2;
+		string s3;
+		if(s1 == "clear"){
+			l.clear();
+			out<< "clear" << endl;
+		}
+		else if(s1 == "add"){
+			in >> s2;
+			string data = s2;
+			l.add(data);
+			out << s + " " + s2 << endl;
+		}
+		else if(s1 == "print"){
+			out << s ;	//first endl is printed in avlTree.print();
+			out << "print";
+			l.print(out);
+		}
+		else if(s1 == "find"){
+			in >> s3;
+			string data = s3;
+			if(l.find(data)){
+				out << "find " << data << " true" << endl;
+			}
+			else{
+				out << "find " << data << " false" << endl;
+			}
+
+		}
+		else if(s1 == "remove"){
+			in >> s2;
+
+			l.remove(s2);
+			out << "remove " << s2 << endl;
+		}
+	}
+    
+    
+    return 0;
+}
+

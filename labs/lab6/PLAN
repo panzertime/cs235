@@ -1,0 +1,40 @@
+AVL Tree plan
+
+Looking at my old code, the *real* problem seems to be buried somewhere in the rotation and balance functions.  I get segfaults 
+
+		Seems adding jim after bob and joe is calling remove for some reason!  Then it acts like it wants to remove the root, and segfaults 
+
+		Hm.  Looking deeper.  Bob and joe are at least getting "added" by main(), but then there's a crash called by main():62, which is removing something for some reason, which shoulding happen *at all* until after bob, joe, and jim have been added, and printed, and joe has been found – none of which seem to be happening.  This means that for some reason either main() has serious schizophrenia, or some rotation code is making jim not get added, making print() not work, and making find() not work.
+
+		Nevermind.  Everything gets added, in theory, but the heights of the resultant tree are all up by 1.  Oops, big issue there.  The dropout is indeed happening when removing joe, the only remaining item.  Main() is absolved.
+
+		Aha.  Poking it a little with a revised in file, bob gets removed fine, so does joe, with the exception of heights - they're increasing by 1 with every operation - so we've gotta redo the height code, which is probably breaking the rotate code (which doesn't appear to be so broken after all :{P ).  Another test, in the which I add one bob and promptly remove him segfaults in the same way.  Obviously AVL trees don't know how to remove the root node in a tree of height 1.
+
+		Why?  Well, the remove code treats the root specially, as I guess it should.  It temp-copies the node returned by excise(), which, when the tree is only one node high, simply deletes the node and returns NULL.  After excising the node, the remover is supposed to reseat the temp node at root and then fix all the heights.  Obviously the height code won't work if your root is NULL and the tree is empty!  Wow - this is a classic example of overly complex and poorly-documented code.  
+
+		Solutions:	First, fix the height-making code - it obviously doesn't work if it's only increasing everything by one for every operation but the deletion of the second-to-last node (special case dictates that single-height trees are automatically set to 1).  This on its own will probably fix everything else, or at least simplify clearing up the rest of any issues.  Also, we need to make sure that deleting the last node really just, well, clears the tree.  This will make clear() work properly too.
+
+		Experiment shows that the code doesn't seem to be handling the size right when it gets to 0.  I can tell this because adding a "if size == 0" in various spots does not resolve the delete issue, whereas adding "if where == NULL" to the heightfix() DOES.  the bug reappears at the next find() step - find() should simply return NULL if the tree is empty, but it proceeds to try to scan thru an empty list, which obviously doesn't work.  Oops!
+
+		This is so messed up, that I think I'll just redo the add, remove, and balancing code from scratch.  Just like I planned.
+
+engine code in main
+	read in commands
+	interact with tree
+	
+	input parsing probably can be recycled
+	redo tree interface, modify main accordingly
+
+basic BST
+	redo from scratch! original implementation polluted
+	node: left, right, height
+		determine height recursively somehow
+	print: probably adapt from original impl.
+		originally, I made LL's of each level and printed them
+		It really didn't work bad, might just do it again
+	insert node
+		First node
+		Exists?  Nope. ~no dupes~
+		find position (left / right until leaf)
+		compare left->height and right->height (encapsulate)
+			if left, rotate left, etc.

@@ -1,0 +1,3 @@
+add bob
+print
+remove bob

@@ -1,0 +1,197 @@
+//
+//  avlTree.h
+//  project 6
+//
+//  Created by Arthur Hatfield on 23/03-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#ifndef __project_6__avlTree__
+#define __project_6__avlTree__
+
+#include <iostream>
+#include "LinkedList.h"
+
+using namespace std;
+
+template <typename obj>
+
+class avlTree {
+public:
+    
+    avlTree<obj>(){
+        size = 0;
+        root = NULL;
+    }
+    
+    virtual ~avlTree(){
+        clear();
+    }
+    
+    class node {
+    public:
+        obj item;
+        node* left;
+        node* right;
+        int height;
+
+    };
+    
+    
+    node* root;
+    int size;
+    
+    void clear(){ 	// redo
+        if(size != 0){
+
+        }
+    }
+    
+    LinkedList<node*> level(LinkedList<node*> & current){
+    	LinkedList<node*> plus;
+    	int k = current.size;
+    	int place = 0;
+    	cout << "level in size: " << k << endl;
+    	for(int i = 0; i < k; i++){
+    		node* at = current.get(i);
+    		if(at->right != NULL){
+    			cout << "adding r: " << at->right->item <<endl;
+    			plus.append(at->right);
+    			place++;
+    		}
+    		if(at->left != NULL){
+    			cout << "adding l: " << at->left->item <<endl;
+    			plus.append(at->left);
+    			place++;
+    		}
+    	}
+    	cout << "level out size: " << plus.size << endl;
+    	return plus;
+    }
+    
+    void print(LinkedList<node*> & lev, int & no, ofstream & to){
+    	int k = lev.size;
+    	for(int i = 0; i < k; i++){
+        	if (i % 8 == 0){
+        		cout << endl << "level " << no << ": ";
+        	}
+        	node* at = lev.get(i);
+        	cout << at->item << "(" << at->height << ") ";
+    	}
+    }
+
+    void print(ofstream & to){// redo
+    	cout << "size of whole tree: " << size << endl;
+    	if(size != 0){
+    		LinkedList<node*> zero;
+    		zero.insert(0,root);
+    		int depth = 0;
+    		print(zero,depth,to);
+    		depth++;
+    		LinkedList<node*> next = level(zero);
+    		int k = next.size;
+    		while(k != 0){
+    			print(next,depth,to);
+    			depth++;
+    			next = level(next);
+    			k = next.size;
+    		}
+    	}
+    }
+
+    void add(const obj& item) {
+    	if (size == 0){
+    		node* first = new node;
+    		first -> item = item;
+    		first -> left = NULL;
+    		first -> right = NULL;
+    		first -> height = 1;
+    		root = first;
+    		size++;
+    	}
+    	else {
+    		add(item, root);
+    	}
+    }
+
+    void add(const obj& nitem, node* where) {
+    	if (nitem < where -> item){
+    		if (where -> left == NULL){
+    			node* temp = new node;
+    			temp -> item = nitem;
+    			temp -> left = NULL;
+    			temp -> right = NULL;
+    			temp -> height = 1;	// is always added as leaf, h = 1
+    			where -> left = temp;
+    			size++;
+    		}
+    		else {
+    			add(nitem, where->left);
+    		}
+    	}
+    	if (nitem > where -> item){
+    		if (where -> right == NULL){
+    			node* temp = new node;
+    			temp -> item = nitem;
+    			temp -> left = NULL;
+    			temp -> right = NULL;
+    			temp -> height = 1;	//	is always added as leaf, h = 1
+    			size++;
+    			where -> right = temp;
+    		}
+    		else {
+    			add(nitem, where->right);
+    		}
+    	}
+    	if (nitem == where -> item){
+    		return;
+    	}//if this doesn't work, parentheses
+//    	if ((where -> left) -> height > (where -> right) -> height){
+//    		where -> height = (where -> left) -> height + 1;
+//    	}
+//    	else {
+//    		where -> height = (where -> right) -> height + 1;
+//    	}
+    }
+
+
+    void remove(const obj& item){
+    	if(size != 0){
+    		remove(item, root);
+    	}
+    }
+
+    
+    void remove(const obj& item, node* where) {
+
+
+        
+    }
+    
+    bool find(const obj& item) {
+    	node* src = root;
+    	while(src != NULL){
+    		if (item == src -> item){
+    			return true;
+    		}
+    		if (item > src -> item){
+    			src = src -> right;
+    		}
+    		if (item < src -> item){
+    			src = src -> left;
+    		}
+    	}
+    	return false;
+    }
+
+    
+
+
+};
+
+
+
+
+
+
+#endif /* defined(__project_6__avlTree__) */

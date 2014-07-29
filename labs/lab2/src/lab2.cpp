@@ -1,9 +1,9 @@
 //============================================================================
 // Name        : lab2.cpp
 // Author      : RT Hatfield
-// Version     :
-// Copyright   : this
-// Description :
+// Version     : 0.2
+// Copyright   : WTFPL 2014
+// Description :lab 2, the spell checker
 //============================================================================
 
 #include <iostream>
@@ -105,13 +105,10 @@ int main(int argc, char* argv[]) {
 
 	while(getline(document, wordp)){
 		lineCounter++;				//because we want to iterate on every line in the document
-//		cout << wordp.length() << " " << wordp << endl;
 		wordp = pretty(wordp);
-//		cout << wordp.length() << " " << wordp << endl;
 		stringstream words;
 		words.str(wordp);
 		if(wordp.length() > 0){
-//			vector<string> words = lineBreaker(wordp);
 			string w;
 				while(words >> w){		//auto thinks i want a character.
 

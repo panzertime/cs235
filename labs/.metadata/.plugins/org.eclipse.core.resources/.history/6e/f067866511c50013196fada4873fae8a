@@ -1,0 +1,336 @@
+//
+//  avlTree.h
+//  project 6
+//
+//  Created by Arthur Hatfield on 23/03-2014.
+//  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//
+
+#ifndef __project_6__avlTree__
+#define __project_6__avlTree__
+
+#include <iostream>
+#include "LinkedList.h"
+
+using namespace std;
+
+template <typename obj>
+
+class avlTree {
+public:
+    
+    avlTree<obj>(){
+        size = 0;
+        root = NULL;
+    }
+    
+    virtual ~avlTree(){
+        clear();
+    }
+    
+    class node {
+    public:
+        obj item;
+        node* left;
+        node* right;
+        int height;
+
+        virtual ~node(){
+        	left = NULL;
+        	right = NULL;
+        }
+
+    };
+    
+    
+    node* root;
+    int size;
+    
+    void clear(){ 	// redo
+        if(size != 0){
+
+        }
+    }
+    
+    void level(LinkedList<node*> & current, int & no, ofstream & to){
+    	LinkedList<node*> plus;
+    	int k = current.size;
+    	for(int i = 0; i < k; i++){
+    		node* at = current.get(i);
+    		if(at->right != NULL){
+    			plus.append(at->right);
+    		}
+    		if(at->left != NULL){
+    			plus.append(at->left);
+    		}
+    	}
+    	if (plus.size != 0){
+    		print(plus,no,to);
+    		no++;
+    		level(plus,no,to);
+    	}
+    	else {
+    		return;
+    	}
+    }
+    
+    void print(LinkedList<node*> & lev, int & no, ofstream & to){
+    	int k = lev.size;
+    	for(int i = 0 ; i < k; i++){
+        	if (i % 8 == 0){
+        		to << endl << "level " << no << ": ";
+        	}
+        	node* at = lev.get((k-i)-1);
+        	to << at->item << "(" << at->height << ") ";
+    	}
+    }
+
+    void print(ofstream & to){// redo
+    	if(size != 0){
+    		LinkedList<node*> zero;
+    		zero.insert(0,root);
+    		int depth = 0;
+    		print(zero,depth,to);
+    		depth++;
+    		level(zero,depth,to);
+    		to << endl;
+    	}
+    	if(size == 0){
+    		to << endl;
+    	}
+    }
+
+    void fixHeight(node* where){
+    	if (where -> left == NULL && where -> right == NULL){
+    		where -> height = 1;
+    	}
+    	else if (where -> left != NULL && where -> right == NULL){
+    		where -> height = where -> left -> height +1;
+    	}
+    	else if (where -> left == NULL && where -> right != NULL){
+    		where -> height = where -> right -> height +1;
+    	}
+    	else if ((where -> left) -> height > (where -> right) -> height){
+    		where -> height = (where -> left) -> height + 1;
+    	}
+    	else {
+    		where -> height = (where -> right) -> height + 1;
+    	}
+    }
+
+    void add(const obj& item) {
+    	if (size == 0){
+    		node* first = new node;
+    		first -> item = item;
+    		first -> left = NULL;
+    		first -> right = NULL;
+    		first -> height = 1;
+    		root = first;
+    		size++;
+    	}
+    	else {
+    		node* temp = add(item, root, NULL);
+    		chkbal(temp);
+    	}
+    }
+
+
+    node* add(const obj& nitem, node* where, node* parent) {
+    	if (nitem < where -> item){
+    		if (where -> left == NULL){
+    			node* temp = new node;
+    			temp -> item = nitem;
+    			temp -> left = NULL;
+    			temp -> right = NULL;
+    			temp -> height = 1;	// is always added as leaf, h = 1
+    			where -> left = temp;
+    			cout << where->item << " where is" << endl;
+    			size++;
+    		}
+    		else {
+    			add(nitem, where->left, where);
+    		}
+    	}
+    	if (nitem > where -> item){
+    		if (where -> right == NULL){
+    			node* temp = new node;
+    			temp -> item = nitem;
+    			temp -> left = NULL;
+    			temp -> right = NULL;
+    			temp -> height = 1;	//	is always added as leaf, h = 1
+    			size++;
+    			where -> right = temp;
+    			cout << where->item << " where is" << endl;
+    		}
+    		else {
+    			add(nitem, where->right, where);
+    		}
+    	}
+    	if (nitem == where -> item){
+    		return where;
+    	}
+    	if (parent !=NULL)
+    	fixHeight(where);
+    }
+
+
+    void remove(const obj& item){
+    	if(size != 0){
+    		if(find(item)){
+    			if(item == root->item){
+    				node* temp = excise(root);
+    				root = temp;
+    			}
+    			else{
+        			remove(item, root);
+    			}
+    		}
+    	}
+    }
+
+    
+    void remove(const obj& item, node* & where) {
+    	node* l = where -> left;
+    	node* r = where -> right;
+    	if(l != NULL && item < where -> item){
+    		if(item == l -> item){
+    			where->left = excise(l);
+    		}
+    		else{
+    			remove(item,l);
+    		}
+    	}
+    	if(item > where -> item && r != NULL){
+    		if(item == r -> item){
+    			where->right = excise(r);
+    		}
+    		else{
+    			remove(item,r);
+    		}
+    	}
+    }
+
+    node* excise(node* & where){		//erases given node, returns reconnection point
+    	if(heightAt(where) == 1){    //by this means you can pretend you know the parent
+    		delete where;
+    		size--;
+    		return NULL;
+    	}
+    	if(where->left != NULL && where->right == NULL){
+    		node* temp = where->left;
+    		delete where;
+    		size--;
+    		return temp;
+    	}
+    	if(where->right != NULL && where->left == NULL){
+    		node* temp = where->right;
+    		delete where;
+    		size--;
+    		return temp;
+    	}
+    	if(where->left != NULL && where->right != NULL){
+    		node* bottom = min(where);
+    		node* newlast = minp(where);
+    		newlast->left = NULL;
+    		bottom->right = where->right;
+    		bottom->left = where->left;
+    		delete where;
+    		size--;
+    		return bottom;
+    	}
+    	return NULL;
+    }
+
+    node* min(node* where){
+    	if(where -> left != NULL){
+    		min(where->left);
+    	}
+    	return where;
+    }
+    
+    node* minp(node* where){
+    	if(where->left->left != NULL){
+    		min(where->left);
+    	}
+    	return where;
+    }
+
+    bool find(const obj& item){
+    	if(size!=0){
+    		return find(item,root);
+    	}
+    	return false;
+    }
+
+    bool find(const obj& item, node* where) {
+    	if(item == where->item){
+    		return true;
+    	}
+    	if(item > where -> item && where -> right != NULL){
+    		return find(item, where->right);
+    	}
+    	if(item < where -> item && where -> left != NULL){
+    		return find(item, where->left);
+    	}
+    	return false;
+    }
+
+    void chkBal(node* & parent, node* & where){
+    	if(heightAt(where->left)-heightAt(where->right) > 1){
+    		bRight(where->right,where);
+    	}
+    	else if (heightAt(where->right)-heightAt(where->left) > 1){
+    		bLeft(where,parent);
+    	}
+    }
+
+    void bRight(node* & where, node* & parent){
+    	if(heightAt(where->left->right) > heightAt(where->left->left)){
+    		rotLeft(where->left,where);
+    	}
+    	rotRight(where,parent);
+    }
+
+    void bLeft(node* & where, node* & parent){
+    	if(heightAt(where->right->left) > heightAt(where->right->right)){
+    		rotRight(where->right,where);
+    	}
+    	rotLeft(where,parent);
+    }
+    
+    void rotRight(node* & where, node* & parent){
+    	node* temp = where->left;
+    	where->left = temp->right;
+    	temp->right = where;
+    	where = temp;
+    	fixHeight(where);
+    	fixHeight(temp);
+    }
+
+    void rotLeft(node* & where,node* & parent){
+    	node* temp = where->right;
+    	where->right = temp->left;
+    	temp->left = where;
+    	where = temp;
+    	fixHeight(where);
+    	fixHeight(temp);
+    }
+
+    int heightAt(node* & where){
+    	if(where == NULL){
+    		return 0;
+    	}
+    	else{
+    		return where->height;
+    	}
+    }
+
+
+};
+
+
+
+
+
+
+#endif /* defined(__project_6__avlTree__) */

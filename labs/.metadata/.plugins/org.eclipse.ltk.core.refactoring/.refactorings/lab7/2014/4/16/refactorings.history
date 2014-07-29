@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;lab7/hashSet&apos; to &apos;hashSet.cpp&apos;" description="Rename resource &apos;hashSet&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="hashSet" name="hashSet.cpp" stamp="1397607118426" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;lab7/hashSet.cpp&apos; to &apos;hashSet.h&apos;" description="Rename resource &apos;hashSet.cpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="hashSet.cpp" name="hashSet.h" stamp="1397607124658" updateReferences="true"/>
+</session>

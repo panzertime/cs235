@@ -4,6 +4,9 @@
 //
 //  Created by Arthur Hatfield on 21/03-2014.
 //  Copyright (c) 2014 Arthur Hatfield. All rights reserved.
+//	modified and checked 12 / VII - 2014
+//	version 1.01
+//
 //
 
 #include <iostream>
@@ -55,7 +58,7 @@ int main(int argc, const char * argv[])
 		else if(s1 == "remove"){
 			in >> s2;
 			int digit = atoi(s2.c_str());
-			string k = l.remove(digit);// l.remove(digit);
+			string k = l.remove(digit);
 			out << "remove " << digit << " " << k << endl;
 		}
 	}

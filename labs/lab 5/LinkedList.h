@@ -98,7 +98,7 @@ public:
         if (index < size ) {
             
             node *temp = get(index);
-          //  cout << "  ! ! ! " << temp->item << endl;
+
             node *nov = new node;
             nov->item = item;
             
