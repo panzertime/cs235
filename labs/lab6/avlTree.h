@@ -55,10 +55,10 @@ public:
     node* root;
     int size;
     
-    void clear(){ 	// redo
-        if(size != 0){
-		remove(root->item);
-        }
+    void clear(){ 	
+       while(size != 0){
+       	remove(root->item);
+	}
     }
 
 	//following code is responsible for figuring out which
@@ -144,7 +144,7 @@ public:
     }
 
     void add(const obj& item){
-    	if(!find(item)){
+    	if(!(find(item))){
     		root = add(item, root);
 		size++;
 		}
@@ -153,29 +153,27 @@ public:
 	
 	node* add (const obj& item, node* lroot) {
 
-	if (lroot == NULL)
-	return new node(item);
-	if (lroot -> item < item)
-		lroot -> right = add(item, lroot->right);
-	if (lroot -> item > item)
-		lroot -> left = add(item, lroot-> left);
+		if (lroot == NULL)
+			return new node(item);
+		if (lroot -> item < item)
+			lroot -> right = add(item, lroot->right);
+		if (lroot -> item > item)
+			lroot -> left = add(item, lroot-> left);
 
-	//balance here
-	lroot = balance(lroot);
-	//height fixing
-	fixHeight(lroot);
-	return lroot;
-	//returns the node, follow it thru the stack trace to Oz!
-	}
+		//balance here
+		lroot = balance(lroot);
+		//height fixing
+		fixHeight(lroot);
+		return lroot;
+		//returns the node, follow it thru the stack trace to Oz!
+		}
 
 	node* balance (node* lroot) {
 		int bal = heightAt(lroot->left) - heightAt(lroot->right);
 		if (bal > 1)
-			//lroot = right(lroot);
-			cout << "right" << endl;
+			lroot = right(lroot);
 		if (bal < -1)
-		//	lroot = left(lroot);
-			cout << "left" << endl;
+			lroot = left(lroot);
 		return lroot;
 	}
 
@@ -187,20 +185,30 @@ public:
 	}
 
 	node* left(node* lroot) {
-		if (heightAt(lroot->left->right) > heightAt(lroot->left->left))
+		if (heightAt(lroot->right->right) < heightAt(lroot->right->left))
 			lroot->right = rotateRight(lroot->right);
 		lroot = rotateLeft(lroot);
 		return lroot;
 	}
 
-	node* rotateRight(node* lroot) {
-		// insert code here~!
-		return lroot;
-	}
-
 	node* rotateLeft(node* lroot) {
 		// insert code here~!
-		return lroot;
+		// left child of right child becomes right child of parent
+		// parent becomes left child of right child
+		node* temp = lroot->right; // right child
+		lroot->right = temp->left;
+		temp->left = lroot;
+		return temp;
+	}
+
+	node* rotateRight(node* lroot) {
+		// insert code here~!
+		// right child of left child becomes left child of parent
+		// parent becomes right child of left child
+		node* temp = lroot->left;
+		lroot->left = temp->right;
+		temp->right = lroot;
+		return temp; 
 	}
 
 
@@ -208,13 +216,82 @@ public:
 		if(find(item)){
 			root = remove(item, root);
 			size--;
+		}
 	}
 
 	node* remove(const obj& item, node* lroot){
 		// insert code here~!
+		if (lroot->item == item)
+			return excise(lroot);
+		else if (lroot->item < item)
+			lroot->right = remove(item, lroot->right);
+		else if (lroot->item > item)
+			lroot->left = remove(item,lroot->left);
+		
+		lroot = balance(lroot);
+		fixHeight(lroot);
+			
 		return lroot;
 	}
 
+	node* excise(node* lroot){
+		// code plz
+		// if no children, delete lroot, return NULL
+		if(lroot->left == NULL && lroot->right == NULL){
+			delete lroot;
+			return NULL;
+			}
+		// if one child, ?
+		else if(lroot->left == NULL){
+			node* temp = lroot->right;
+			delete lroot;
+			return temp;
+		}
+		else if (lroot->right == NULL){
+	 		node* temp = lroot->left;
+			delete lroot;
+			return temp;
+		}
+		else{
+		// if two children, find minimum on right, swap, remove(min)
+		//	lroot->item = min(lroot->right);
+		//	cout << lroot->item << endl;
+		//	remove(lroot->item,lroot->right);
+		//	node* temp = swap(lroot->right);
+		//	lroot->item = temp->item;
+			obj temp = min(lroot->right);
+			lroot->item = temp;
+			lroot->right = remove(temp, lroot->right);
+			return lroot;
+}
+	}
+
+	obj min(node* lroot){
+		if(lroot->left != NULL)
+			return min(lroot->left);
+		return lroot->item;
+	}
+
+//	node* swap(node* lroot){
+//		if(lroot->left != NULL)
+//			return swap(lroot->left);
+//		lroot-  nope.
+//		return lroot;
+//	}
+
+	void swap(node* root, node* lroot){
+		if(lroot->left != NULL)
+			return swap(root, lroot->left);
+		else {
+			root->item = lroot->item;
+			root = lroot;
+			//node* temp = lroot->right;
+			delete lroot;
+			//return temp;
+		}
+	}
+
+		
 
     int heightAt(node* where){
     	if(where == NULL){

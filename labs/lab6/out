@@ -1,28 +1,15 @@
-add a
-add b
-add c
-add d
-add e
-add f
-add g
-add h
-add i
-add j
-add k
-add l
-add m
-add n
-add o
-add p
-add q
-add r
-add s
-add t
-add u
-add v
-add w
-add x
-add y
-add z
-print
 clear
+add 2
+add 1
+add 4
+add 3
+add 5
+print
+level 0: 2(3) 
+level 1: 1(1) 4(2) 
+level 2: 3(1) 5(1) 
+remove 1
+print
+level 0: 4(4) 
+level 1: 2(3) 5(1) 
+level 2: 3(1) 
