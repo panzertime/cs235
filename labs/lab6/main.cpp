@@ -64,6 +64,9 @@ int main(int argc, const char * argv[])
 			out << "remove " << s2 << endl;
 		}
 	}
+
+	in.close();
+	out.close();
     
     
     return 0;

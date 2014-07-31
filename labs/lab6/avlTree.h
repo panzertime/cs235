@@ -198,6 +198,7 @@ public:
 		node* temp = lroot->right; // right child
 		lroot->right = temp->left;
 		temp->left = lroot;
+		fixHeight(lroot);
 		return temp;
 	}
 
@@ -208,6 +209,7 @@ public:
 		node* temp = lroot->left;
 		lroot->left = temp->right;
 		temp->right = lroot;
+		fixHeight(lroot);
 		return temp; 
 	}
 
@@ -254,16 +256,13 @@ public:
 		}
 		else{
 		// if two children, find minimum on right, swap, remove(min)
-		//	lroot->item = min(lroot->right);
-		//	cout << lroot->item << endl;
-		//	remove(lroot->item,lroot->right);
-		//	node* temp = swap(lroot->right);
-		//	lroot->item = temp->item;
 			obj temp = min(lroot->right);
 			lroot->item = temp;
 			lroot->right = remove(temp, lroot->right);
+			lroot = balance(lroot);
+			fixHeight(lroot);
 			return lroot;
-}
+		}
 	}
 
 	obj min(node* lroot){
@@ -271,27 +270,6 @@ public:
 			return min(lroot->left);
 		return lroot->item;
 	}
-
-//	node* swap(node* lroot){
-//		if(lroot->left != NULL)
-//			return swap(lroot->left);
-//		lroot-  nope.
-//		return lroot;
-//	}
-
-	void swap(node* root, node* lroot){
-		if(lroot->left != NULL)
-			return swap(root, lroot->left);
-		else {
-			root->item = lroot->item;
-			root = lroot;
-			//node* temp = lroot->right;
-			delete lroot;
-			//return temp;
-		}
-	}
-
-		
 
     int heightAt(node* where){
     	if(where == NULL){

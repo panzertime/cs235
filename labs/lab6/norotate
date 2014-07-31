@@ -1,0 +1,11 @@
+add m
+add a
+add z
+add s
+print
+remove z
+print
+remove a
+print
+remove m
+print

@@ -7,3 +7,5 @@ add 3
 print
 remove 4
 print
+add 4 
+print
