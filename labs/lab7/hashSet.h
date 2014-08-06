@@ -44,7 +44,18 @@ class hashSet {
 		 *	for each bucket, generate some lists and
 		 *	print in eights.  The newline makes this
 		 *	slightly less than trivial.
+		 *
+		 *	Basically, for each bucket,
+		 *	then do like position % 8 to stick newlines in
 		 */
+
+		 for (int bucket = 0; bucket < tableSize; bucket++) {
+		 	for (int at = 0; at < table[bucket].size; at++) {
+				if (at % 8 == 0)
+					out << endl << "hash " << bucket << ": ";
+				out << table[bucket].get(at);
+			}
+		}
 	}
 
 	void clear() {
@@ -88,7 +99,7 @@ class hashSet {
 			int index = table[bucket].find(item);
 			table[bucket].remove(index);
 			size--;
-			if (((double) (size / tableSize)) < 0.5)
+			if (((double) size) > (((double) tableSize )* 0.5))
 			downHash();	
 		}
 	}
@@ -147,9 +158,11 @@ class hashSet {
 	}
 
 	bool find(const obj& item) {
-		unsigned bucket = hashCode(item);
-		if (table[bucket].find(item) >= 0)
-		return true;
+		if (size != 0){
+			unsigned bucket = hashCode(item);
+			if (table[bucket].find(item) >= 0)
+			return true;
+		}
 		//or fall thru to neg case:
 		return false;
 
